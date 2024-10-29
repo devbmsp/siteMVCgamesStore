@@ -1,4 +1,4 @@
-﻿@model List<CatalogoMVC.Models.HomeModel>
+﻿@model List<CatalogoMVC.Models.UsuarioModel>
 
 @{
     ViewData["title"] = "Perfis";
@@ -22,7 +22,7 @@
 
 @if (Model != null && !string.IsNullOrEmpty(userIdFromSession))
 {
-    foreach (HomeModel user in Model)
+    foreach (UsuarioModel user in Model)
     {
         if (user.Id.ToString() == userIdFromSession) 
         {

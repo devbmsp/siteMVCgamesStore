@@ -5,8 +5,8 @@ namespace CatalogoMVC.Helper
     public interface ISessao
     {
         void RemoverSessaoUsuario();
-        void CriarSessaoDoUsuario(HomeModel usuario);
+        void CriarSessaoDoUsuario(UsuarioModel usuario);
         
-        HomeModel BuscarSessaoDoUsuario();
+        UsuarioModel BuscarSessaoDoUsuario();
     }
 }

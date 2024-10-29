@@ -1,4 +1,5 @@
-﻿using CatalogoMVC.Models;
+﻿using CatalogoMVC.Data.Map;
+using CatalogoMVC.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CatalogoMVC.Data
@@ -9,6 +10,13 @@ namespace CatalogoMVC.Data
         { 
             
         }
-        public DbSet<HomeModel> Users  { get; set; }
+        public DbSet<UsuarioModel> Users  { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new UsuarioMap());
+
+            base.OnModelCreating(modelBuilder);
+        }
+
     }
 }

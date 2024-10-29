@@ -1,6 +1,6 @@
 ﻿namespace CatalogoMVC.Models
 {
-    public class HomeModel
+    public class UsuarioModel
     {
         public int Id { get; set; } 
         public  string? Username { get; set; }

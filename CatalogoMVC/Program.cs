@@ -13,7 +13,7 @@ namespace CatalogoMVC
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddEntityFrameworkSqlServer().AddDbContext<BancoContext>(o =>
+            builder.Services.AddDbContext<BancoContext>(o =>
             o.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
 
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

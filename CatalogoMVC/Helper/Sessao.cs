@@ -12,16 +12,16 @@ namespace CatalogoMVC.Helper
             _httpContext = httpContext;
         }
 
-        public HomeModel BuscarSessaoDoUsuario()
+        public UsuarioModel BuscarSessaoDoUsuario()
         {
             string sessaoUsuario = _httpContext.HttpContext.Session.GetString("sessaoUsuarioLogado");
 
             if (string.IsNullOrEmpty(sessaoUsuario)) return null;
 
-            return JsonConvert.DeserializeObject<HomeModel>(sessaoUsuario);
+            return JsonConvert.DeserializeObject<UsuarioModel>(sessaoUsuario);
         }
 
-        public void CriarSessaoDoUsuario(HomeModel usuario)
+        public void CriarSessaoDoUsuario(UsuarioModel usuario)
         {
             string valor = JsonConvert.SerializeObject(usuario);
 

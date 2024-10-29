@@ -15,7 +15,7 @@ namespace CatalogoMVC.ViewComponents
             {
                 return View();
             }
-            HomeModel usuario = JsonConvert.DeserializeObject<HomeModel>(sessaoUsuario);
+            UsuarioModel usuario = JsonConvert.DeserializeObject<UsuarioModel>(sessaoUsuario);
 
             return View(usuario);
         }

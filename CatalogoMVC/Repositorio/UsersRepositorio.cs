@@ -12,16 +12,16 @@ namespace CatalogoMVC.Repositorio
         {
             _bancoContext = bancoContext;
         }
-        public HomeModel Adicionar(HomeModel user)
+        public UsuarioModel Adicionar(UsuarioModel user)
         {
             _bancoContext.Users.Add(user);
             _bancoContext.SaveChanges();
             return user;
         }
 
-        public HomeModel Atualizar(HomeModel user)
+        public UsuarioModel Atualizar(UsuarioModel user)
         {
-            HomeModel userBD = ListarPorId(user.Id);
+            UsuarioModel userBD = ListarPorId(user.Id);
 
             if (userBD == null) throw new System.Exception("Houve um erro na atualização do contato!");
 
@@ -39,7 +39,7 @@ namespace CatalogoMVC.Repositorio
 
         }
 
-        public HomeModel BuscarLogin(string email)
+        public UsuarioModel BuscarLogin(string email)
         {
             return _bancoContext.Users.FirstOrDefault(x => x.Email.ToLower() == email.ToLower());
 
@@ -51,7 +51,7 @@ namespace CatalogoMVC.Repositorio
         public bool Deletar(int Id)
         {       
                 
-                HomeModel userDB = ListarPorId(Id);
+                UsuarioModel userDB = ListarPorId(Id);
                 
                 if (userDB == null)
                 {
@@ -68,13 +68,13 @@ namespace CatalogoMVC.Repositorio
 
 
 
-        public HomeModel ListarPorId(int Id)
+        public UsuarioModel ListarPorId(int Id)
         {
           
             return _bancoContext.Users.FirstOrDefault(x => x.Id == Id);
         }
 
-        public List<HomeModel> BuscarId()
+        public List<UsuarioModel> BuscarId()
         {
             return _bancoContext.Users.ToList();
         }

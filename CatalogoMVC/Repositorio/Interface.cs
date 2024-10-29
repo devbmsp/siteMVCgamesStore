@@ -4,12 +4,12 @@ namespace CatalogoMVC.Repositorio
 {
     public interface Interface
     {
-        HomeModel ListarPorId(int id);
-        HomeModel Adicionar(HomeModel user);
+        UsuarioModel ListarPorId(int id);
+        UsuarioModel Adicionar(UsuarioModel user);
         bool Deletar(int id);
-        HomeModel Atualizar (HomeModel user);
-        HomeModel BuscarLogin (string login);
+        UsuarioModel Atualizar (UsuarioModel user);
+        UsuarioModel BuscarLogin (string login);
 
-        List<HomeModel> BuscarId();
+        List<UsuarioModel> BuscarId();
     }
 }

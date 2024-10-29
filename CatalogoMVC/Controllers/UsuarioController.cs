@@ -6,24 +6,24 @@ using System.Diagnostics;
 
 namespace CatalogoMVC.Controllers
 {
-    public class HomeController : Controller
+    public class UsuarioController : Controller
     {
         private readonly Interface _userRepositorio;
         private readonly ISessao _sessao;
 
         
-        public HomeController(Interface usuarioRepositorio, ISessao sessao)
+        public UsuarioController(Interface usuarioRepositorio, ISessao sessao)
         {
             _userRepositorio = usuarioRepositorio;
             _sessao = sessao;
         }
 
         [HttpPost]
-        public IActionResult Entrar(HomeModel login)
+        public IActionResult Entrar(UsuarioModel login)
         {
             try
             {
-                HomeModel usuario = _userRepositorio.BuscarLogin(login.Email);
+                UsuarioModel usuario = _userRepositorio.BuscarLogin(login.Email);
 
                 if (usuario != null && usuario.SenhaValida(login.Password))
                 {
@@ -62,7 +62,7 @@ namespace CatalogoMVC.Controllers
 
         public IActionResult Perfil()
         {
-            List<HomeModel> Users = _userRepositorio.BuscarId();
+            List<UsuarioModel> Users = _userRepositorio.BuscarId();
             return View(Users);
         }
 
@@ -74,22 +74,22 @@ namespace CatalogoMVC.Controllers
 
         public IActionResult Editar(int id)
         {
-            HomeModel userEdit = _userRepositorio.ListarPorId(id);
+            UsuarioModel userEdit = _userRepositorio.ListarPorId(id);
             return View(userEdit);
 
 
         }
         [HttpPost]
-        public IActionResult Criar(HomeModel user)
+        public IActionResult Criar(UsuarioModel user)
         {
             _userRepositorio.Adicionar(user);
             return RedirectToAction("Login");
         }
 
         [HttpPost]
-        public IActionResult Alterar(HomeModel user)
+        public IActionResult Alterar(UsuarioModel user)
         {
-            HomeModel atualizado = _userRepositorio.Atualizar(user);
+            UsuarioModel atualizado = _userRepositorio.Atualizar(user);
 
             if (atualizado != null)
             {
