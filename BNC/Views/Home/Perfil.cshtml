@@ -1,0 +1,108 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model List<BNC.Models.HomeModel>
+
+@{
+    ViewData["title"] = "Perfis";
+    var userIdFromSession = Context.Session.GetString("UserId"); 
+}
+
+@if (TempData["MensagemErro"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <button type="button" class="btn btn-danger btn-sm close-alert" data-bs-dismiss="alert" aria-label="Close">X</button>
+        @TempData["MensagemErro"]
+    </div>
+}
+@if (TempData["MensagemSucesso"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        <button type="button" class="btn btn-danger btn-sm close-alert" data-bs-dismiss="alert" aria-label="Close">X</button>
+        @TempData["MensagemSucesso"]
+    </div>
+}
+
+@if (Model != null && !string.IsNullOrEmpty(userIdFromSession))
+{
+    foreach (HomeModel user in Model)
+    {
+        if (user.Id.ToString() == userIdFromSession) 
+        {
+            <div class="align-content-center perfil-container">
+                <div class="perfil-box">
+                    <h1 class="text-center">Perfil de @user.Username</h1>
+                    <form asp-controller="Home" asp-action="Alterar" method="post">
+                        <input type="hidden" asp-for="@user.Id" />
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="Name" class="form-label">Nome</label>
+                                <input type="text" asp-for="@user.Name" class="form-control" id="Name" required>
+                                <div class="invalid-feedback">
+                                    Nome deve conter no mínimo 2 letras e não pode ter números.
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">E-mail</label>
+                                <input type="text" asp-for="@user.Email" class="form-control" id="email" required>
+                                <div class="invalid-feedback">
+                                    O e-mail deve conter "@@" e terminar com ".com".
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="validationCustom04" class="form-label">Gênero</label>
+                                <select class="form-select" asp-for="@user.Gender" id="validationCustom04" required>
+                                    <option selected disabled>@user.Gender</option>
+                                    <option value="Masculino">Masculino</option>
+                                    <option value="Feminino">Feminino</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Por favor selecione um gênero válido.
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="postalCode" class="form-label">Código Postal</label>
+                                <input type="text" asp-for="@user.Zip" class="form-control" id="postalCode" required>
+                                <div class="invalid-feedback">
+                                    Código Postal deve estar no formato 00000-000.
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="password" class="form-label">Senha</label>
+                                <input type="text" asp-for="@user.Password" class="form-control" id="password" required>
+                                <div class="invalid-feedback">
+                                    A senha deve ter no mínimo 4 caracteres.
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="validationCustomUsername" class="form-label">Username</label>
+                                <div class="input-group has-validation">
+                                    <span class="input-group-text" id="inputGroupPrepend">@@</span>
+                                    <input type="text" asp-for="@user.Username" class="form-control" id="validationCustomUsername" required>
+                                    <div class="invalid-feedback">
+                                        Por favor escolha um nome de usuário.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="profile-actions">
+                                <button type="submit" class="btn-edit">Salvar</button>
+                            </div>
+                            <div>   
+                                <button class="btn-delete"  asp-controller="Home" asp-action="Apagar" asp-route-id="@user.Id" type="submit">Deletar Perfil</button>
+                            </div>
+                        </div>
+                    </form>
+
+
+
+                </div>
+            </div>
+        }
+    }
+}
+
