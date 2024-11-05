@@ -32,38 +32,63 @@ namespace BNC.Controllers
                     return RedirectToAction("Index");
                 }
 
-                TempData["MensagemErro"] = "Usu�rio ou senha inv�lido";
+                TempData["MessageError"] = "Usu�rio ou senha inv�lido";
                 return View("Login");
             }
             catch (Exception)
             {
-                TempData["MensagemErro"] = "N�o conseguimos realizar seu login";
+                TempData["MessageError"] = "N�o conseguimos realizar seu login";
                 return View("Login");
             }
         }
         public IActionResult Sair()
         {
-            _sessao.RemoverSessaoUsuario();
-            return RedirectToAction("Login");   
+            try
+            {
+                _sessao.RemoverSessaoUsuario();
+                return RedirectToAction("Login");
+            }
+            catch (Exception)
+            {
+                TempData["MessageError"] = "N�o conseguimos realizar seu logout";
+                return View("Login");
+            }
         }
 
         public IActionResult Index()
         {
-          
 
-            return View();
+            var usuario = _sessao.BuscarSessaoDoUsuario();
+
+            if (usuario == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            
+            return View(usuario);
+
+            
         }
 
         public IActionResult Login()
         {
-            
             return View();
         }
 
         public IActionResult Perfil()
         {
-            List<HomeModel> Users = _userRepositorio.BuscarId();
-            return View(Users);
+            try
+            {
+                List<HomeModel> Users = _userRepositorio.BuscarId();
+                return View(Users);
+            }
+            catch (Exception e)
+            {
+                TempData["MessageError"] = "N�o conseguimos vizualizar seu perfil";
+                return View("Login");
+            }
+            
         }
 
 
@@ -74,10 +99,19 @@ namespace BNC.Controllers
 
         public IActionResult Editar(int id)
         {
-            HomeModel userEdit = _userRepositorio.ListarPorId(id);
-            return View(userEdit);
+            try
+            {
+                TempData["SuccessMessage"] = "N�o conseguimos vizualizar seu perfil";
+                HomeModel userEdit = _userRepositorio.ListarPorId(id);
+                return View(userEdit);
+                
+            }
+            catch (Exception e)
+            {
+                TempData["MessageErro"] = "N�o conseguimos editar seu perfil";
+            }
 
-
+            return null;
         }
         [HttpPost]
         public IActionResult Criar(HomeModel user)

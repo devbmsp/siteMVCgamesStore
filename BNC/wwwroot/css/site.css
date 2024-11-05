@@ -98,7 +98,7 @@ nav ul {
         background: blue;
         padding: 8px 40px;
         cursor: pointer;
-        margin-left: px;
+        
         color: var(--blue);
         font-weight: bold;
         border-radius: 4px;
@@ -454,7 +454,7 @@ footer .last {
     .header-block .text {
         position: absolute;
         bottom: 10%;
-        left: 15;
+        left: 15px;
     }
 
     section .filter-card {
@@ -633,7 +633,7 @@ footer .last {
     height: 40px;
     width: 40px;
     position:relative;
-    margin-left:600px
+    margin-left:500px
 }
 
 
@@ -667,7 +667,7 @@ footer .last {
 }
 
 .btn-delete:hover {
-    background-color: #c0392b;
+    background-color: #c0392b;}
 
 
       
