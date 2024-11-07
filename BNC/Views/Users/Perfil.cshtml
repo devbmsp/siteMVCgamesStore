@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model List<BNC.Models.HomeModel>
+@model List<BNC.Models.UserModel>
 
 @{
     ViewData["title"] = "Perfis";
@@ -23,14 +23,14 @@
 
 @if (Model != null && !string.IsNullOrEmpty(userIdFromSession))
 {
-    foreach (HomeModel user in Model)
+    foreach (UserModel user in Model)
     {
         if (user.Id.ToString() == userIdFromSession) 
         {
             <div class="align-content-center perfil-container">
                 <div class="perfil-box">
                     <h1 class="text-center">Perfil de @user.Username</h1>
-                    <form asp-controller="Home" asp-action="Alterar" method="post">
+                    <form asp-controller="Users" asp-action="Alterar" method="post">
                         <input type="hidden" asp-for="@user.Id" />
 
                         <div class="row g-3">
@@ -93,7 +93,7 @@
                                 <button type="submit" class="btn-edit">Salvar</button>
                             </div>
                             <div>   
-                                <button class="btn-delete"  asp-controller="Home" asp-action="Apagar" asp-route-id="@user.Id" type="submit">Deletar Perfil</button>
+                                <button class="btn-delete"  asp-controller="Users" asp-action="Apagar" asp-route-id="@user.Id" type="submit">Deletar Perfil</button>
                             </div>
                         </div>
                     </form>

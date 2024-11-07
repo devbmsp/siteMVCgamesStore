@@ -15,8 +15,8 @@ namespace BNC.ViewComponents
             {
                 return View();
             }
-            HomeModel usuario = JsonConvert.DeserializeObject<HomeModel>(sessaoUsuario);
-
+            UserModel usuario = JsonConvert.DeserializeObject<UserModel>(sessaoUsuario);
+            
             return View(usuario);
         }
 

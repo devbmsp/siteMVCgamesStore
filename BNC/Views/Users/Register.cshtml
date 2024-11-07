@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model HomeModel
+@model UserModel
 @{
     ViewData["Title"] = "Register";
 }
@@ -21,7 +21,7 @@
     <div class="register-box">
         <h1 class="text-center">Registre-se</h1>
 
-        <form asp-controller="Home" asp-action="Criar" method="post" id="registerForm">
+        <form asp-controller="Users" asp-action="Criar" method="post" id="registerForm">
             <div class="row g-3">
                 <div class="col-md-6">
                     <label for="firstName" class="form-label">Primeiro Nome</label>

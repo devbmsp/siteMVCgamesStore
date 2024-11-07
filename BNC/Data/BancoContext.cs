@@ -9,6 +9,7 @@ namespace BNC.Data
         { 
             
         }
-        public DbSet<HomeModel> Users  { get; set; }
+        public DbSet<UserModel> Users  { get; set; }
+        public DbSet<ItensModel> Itens  { get; set; }
     }
 }

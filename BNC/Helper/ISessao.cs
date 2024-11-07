@@ -5,8 +5,8 @@ namespace BNC.Helper
     public interface ISessao
     {
         void RemoverSessaoUsuario();
-        void CriarSessaoDoUsuario(HomeModel usuario);
+        void CriarSessaoDoUsuario(UserModel usuario);
         
-        HomeModel BuscarSessaoDoUsuario();
+        UserModel BuscarSessaoDoUsuario();
     }
 }

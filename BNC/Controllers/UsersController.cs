@@ -6,24 +6,24 @@ using BNC.Repositorio;
 
 namespace BNC.Controllers
 {
-    public class HomeController : Controller
+    public class UsersController : Controller
     {
-        private readonly Interface _userRepositorio;
+        private readonly IUser _userRepositorio;
         private readonly ISessao _sessao;
 
         
-        public HomeController(Interface usuarioRepositorio, ISessao sessao)
+        public UsersController(IUser usuarioRepositorio, ISessao sessao)
         {
             _userRepositorio = usuarioRepositorio;
             _sessao = sessao;
         }
 
         [HttpPost]
-        public IActionResult Entrar(HomeModel login)
+        public IActionResult Entrar(UserModel login)
         {
             try
             {
-                HomeModel usuario = _userRepositorio.BuscarLogin(login.Email);
+                UserModel usuario = _userRepositorio.BuscarLogin(login.Email);
 
                 if (usuario != null && usuario.SenhaValida(login.Password))
                 {
@@ -57,15 +57,12 @@ namespace BNC.Controllers
 
         public IActionResult Index()
         {
-
             var usuario = _sessao.BuscarSessaoDoUsuario();
 
             if (usuario == null)
             {
                 return RedirectToAction("Login");
             }
-
-            
             return View(usuario);
 
             
@@ -80,12 +77,12 @@ namespace BNC.Controllers
         {
             try
             {
-                List<HomeModel> Users = _userRepositorio.BuscarId();
+                List<UserModel> Users = _userRepositorio.BuscarId();
                 return View(Users);
             }
             catch (Exception e)
             {
-                TempData["MessageError"] = "N�o conseguimos vizualizar seu perfil";
+                TempData["MessageError"] = "Não conseguimos vizualizar seu perfil";
                 return View("Login");
             }
             
@@ -102,7 +99,7 @@ namespace BNC.Controllers
             try
             {
                 TempData["SuccessMessage"] = "N�o conseguimos vizualizar seu perfil";
-                HomeModel userEdit = _userRepositorio.ListarPorId(id);
+                UserModel userEdit = _userRepositorio.ListarPorId(id);
                 return View(userEdit);
                 
             }
@@ -114,16 +111,16 @@ namespace BNC.Controllers
             return null;
         }
         [HttpPost]
-        public IActionResult Criar(HomeModel user)
+        public IActionResult Criar(UserModel user)
         {
             _userRepositorio.Adicionar(user);
             return RedirectToAction("Login");
         }
 
         [HttpPost]
-        public IActionResult Alterar(HomeModel user)
+        public IActionResult Alterar(UserModel user)
         {
-            HomeModel atualizado = _userRepositorio.Atualizar(user);
+            UserModel atualizado = _userRepositorio.Atualizar(user);
 
             if (atualizado != null)
             {

@@ -1,6 +1,4 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Metadata;
 using BNC.Data;
 using BNC.Helper;
 using BNC.Repositorio;
@@ -16,7 +14,7 @@ namespace BNC
             
             var connectionString = builder.Configuration.GetConnectionString("DataBase");
             builder.Services.AddDbContext<BancoContext>(o =>
-            o.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+                o.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
     
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             builder.Services.AddScoped<ISessao, Sessao>();
@@ -27,7 +25,8 @@ namespace BNC
             });
 
 
-            builder.Services.AddScoped<Interface, UsersRepositorio>();
+            builder.Services.AddScoped<IUser, UsersRepositorio>();
+            builder.Services.AddScoped<IItens, ItemRepositorio>();
 
 
             // Add services to the container.
@@ -49,13 +48,12 @@ namespace BNC
             app.UseRouting();
     
             app.UseSession();
-        
             app.UseAuthorization();
 
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Users}/{action=Index}/{id?}");
 
             app.Run();
         }

@@ -5,23 +5,23 @@ using BNC.Models;
 
 namespace BNC.Repositorio
 {
-    public class UsersRepositorio : Interface
+    public class UsersRepositorio : IUser
     {
         private readonly BancoContext _bancoContext;
         public UsersRepositorio(BancoContext bancoContext) 
         {
             _bancoContext = bancoContext;
         }
-        public HomeModel Adicionar(HomeModel user)
+        public UserModel Adicionar(UserModel user)
         {
             _bancoContext.Users.Add(user);
             _bancoContext.SaveChanges();
             return user;
         }
 
-        public HomeModel Atualizar(HomeModel user)
+        public UserModel Atualizar(UserModel user)
         {
-            HomeModel userBD = ListarPorId(user.Id);
+            UserModel userBD = ListarPorId(user.Id);
 
             if (userBD == null) throw new System.Exception("Houve um erro na atualização do contato!");
 
@@ -36,22 +36,15 @@ namespace BNC.Repositorio
             _bancoContext.SaveChanges();
 
             return userBD;
-
         }
-
-        public HomeModel BuscarLogin(string email)
+        public UserModel BuscarLogin(string email)
         {
             return _bancoContext.Users.FirstOrDefault(x => x.Email.ToLower() == email.ToLower());
 
         }
-       
-
-
-
         public bool Deletar(int Id)
         {       
-                
-                HomeModel userDB = ListarPorId(Id);
+                UserModel userDB = ListarPorId(Id);
                 
                 if (userDB == null)
                 {
@@ -61,20 +54,14 @@ namespace BNC.Repositorio
                 _bancoContext.SaveChanges();
 
                 return true;
-            
-
-
         }
-
-
-
-        public HomeModel ListarPorId(int Id)
+        public UserModel ListarPorId(int Id)
         {
           
             return _bancoContext.Users.FirstOrDefault(x => x.Id == Id);
         }
 
-        public List<HomeModel> BuscarId()
+        public List<UserModel> BuscarId()
         {
             return _bancoContext.Users.ToList();
         }

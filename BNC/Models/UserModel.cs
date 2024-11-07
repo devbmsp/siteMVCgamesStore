@@ -1,6 +1,6 @@
 ﻿namespace BNC.Models
 {
-    public class HomeModel
+    public class UserModel
     {
         public int Id { get; set; } 
         public  string? Username { get; set; }

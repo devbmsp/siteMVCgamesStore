@@ -12,16 +12,16 @@ namespace BNC.Helper
             _httpContext = httpContext;
         }
 
-        public HomeModel BuscarSessaoDoUsuario()
+        public UserModel BuscarSessaoDoUsuario()
         {
             string sessaoUsuario = _httpContext.HttpContext.Session.GetString("sessaoUsuarioLogado");
 
             if (string.IsNullOrEmpty(sessaoUsuario)) return null;
 
-            return JsonConvert.DeserializeObject<HomeModel>(sessaoUsuario);
+            return JsonConvert.DeserializeObject<UserModel>(sessaoUsuario);
         }
 
-        public void CriarSessaoDoUsuario(HomeModel usuario)
+        public void CriarSessaoDoUsuario(UserModel usuario)
         {
             string valor = JsonConvert.SerializeObject(usuario);
 
