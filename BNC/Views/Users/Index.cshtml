@@ -13,12 +13,12 @@
 @if (TempData["MensagemSucesso"] != null)
 {
 <div class="alert alert-success" role="alert">
-    <button type="button" class="btn btn-danger btn-sm close-alert" data-bs-dismiss="alert" aria-label="Close">X</button>
+    <button type="button" class="btn btn-success btn-sm close-alert" data-bs-dismiss="alert" aria-label="Close">X</button>
     @TempData["MensagemSucesso"]
 </div>
 }
     <section class="catalog" id="catalog">
-        <div class="content">
+        < class="content">
             <div class="header-block">
                 <div class="text">
                     <h2>Bem Vindo ao BNC!</h2>
@@ -48,7 +48,7 @@
                 <div id="addPostModal" class="modal-container">
                     <div class="modal">
                         <h2>Adicionar Novo Post</h2>
-                        <form id="addPostForm">
+                        <form id="addPostForm" asp-controller="Itens" asp-action="PostarItem">
                             <label for="postTitle">Título:</label>
                             <input type="text" id="postTitle" required><label for="postDescription">Descrição:</label>
                             <textarea id="postDescription" rows="3" required></textarea>
@@ -63,123 +63,7 @@
 
                 <div class="card-wrapper"></div>
             }
-            <div class="card-wrapper">
-                <div id="card1" class="card-item">
-                    @if (Model != null && Model.Email == "admin@bnc.com")
-                    {
-                            <div class="editor">
-                                <a href="#" onclick="postEdit('card1')">
-                                    <img src="~/images/edit.png" alt="Botão"/>
-                                </a>
-                            </div>
-                    }
-                    <img class="img-card" src="~/images/ps4.png" alt="ps4"/>
-                    <div class="card-content">
-
-                        <h3>Playstation 4</h3>
-                        <p>
-                            Playstation 4 Slim com 1 TB de armazenamento.
-                        </p>
-                    </div>
-                    <button type="button">Comprar</button>
-                </div>
-                <div id="card2" class="card-item">
-                    @if (Model != null && Model.Email == "admin@bnc.com")
-                    {                   
-                    <div class="editor">
-                        <a href="#" onclick="postEdit('card2')">
-                            <img src="~/images/edit.png" alt="Botão"/>
-                        </a>
-                    </div>
-                    }
-                    <img class="img-card" src="~/images/3DS.png" alt="3DS"/>
-                    <div class="card-content">
-                        <h3>Nintendo 3DS</h3>
-                        <p>
-                            Nintendo 3DS Usado,
-                            Aceitamos trocas!
-                        </p>
-
-                    </div>
-                    <button type="button">Comprar</button>
-                </div>
-                <div id="card3" class="card-item">
-                    @if (Model != null && Model.Email == "admin@bnc.com")
-                    {                   
-                        <div class="editor">
-                            <a href="#" onclick="postEdit('card3')">
-                                <img src="~/images/edit.png" alt="Botão"/>
-                            </a>
-                        </div>
-                    }
-                    <img class="img-card" src="~/images/nintendo-switch.png" alt="nintendo-switch"/>
-                    <div class="card-content">
-                        <h3>Nintendo Switch</h3>
-                        <p>
-                            Nintendo Switch com mais de 1500 jogos instalados.
-                        </p>
-
-                    </div>
-                    <button type="button">Comprar</button>
-                </div>
-                <div id="card4" class="card-item">
-                    @if (Model != null && Model.Email == "admin@bnc.com")
-                    {                   
-                    <div class="editor">
-                        <a href="#" onclick="postEdit('card4')">
-                            <img src="~/images/edit.png" alt="Botão"/>
-                        </a>
-                    </div>
-                    }
-                    <img class="img-card" src="~/images/ps5.webp" alt="ps5"/>
-                    <div class="card-content">
-                        <h3>Playstation 5</h3>
-                        <p>
-                            Playstation 5 Novo, não aceitamos trocas!
-                        </p>
-                    </div>
-                    <button type="button">Comprar</button>
-                </div>
-                <div id="card5" class="card-item">
-                    @if (Model != null && Model.Email == "admin@bnc.com")
-                    {                   
-                    <div class="editor">
-                        <a href="#" onclick="postEdit('card5')">
-                            <img src="~/images/edit.png" alt="Botão"/>
-                        </a>
-                    </div>
-                    }
-                    <img class="img-card" src="~/images/gameboy.png" alt="Car"/>
-                    <div class="card-content">
-                        <h3>Nintendo Gameboy</h3>
-                        <p>
-                            Nintendo Gameboy Usado Funcionando Perfeitamente.
-                        </p>
-
-                    </div>
-                    <button type="button">Comprar</button>
-                </div>
-                <div id="card6" class="card-item">
-                    @if (Model != null && Model.Email == "admin@bnc.com")
-                    {                   
-                    <div class="editor">
-                        <a href="#" onclick="postEdit('card6')">
-                            <img src="~/images/edit.png" alt="Botão"/>
-                        </a>
-                    </div>
-                    }
-                    <img class="img-card" src="~/images/nintendo-1996.png" alt="Car"/>
-                    <div class="card-content">
-                        <h3>Nintendo 1996</h3>
-                        <p>
-                            Nintendo 96 restaurado, 0 jogos incluso.
-                        </p>
-
-                    </div>
-                    <button type="button">Comprar</button>
-                </div>
-            </div>
-        </div>
+                  
     </section>
 
     <section class="about" id="about">

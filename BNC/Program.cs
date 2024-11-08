@@ -26,6 +26,7 @@ namespace BNC
 
 
             builder.Services.AddScoped<IUser, UsersRepositorio>();
+
             builder.Services.AddScoped<IItens, ItemRepositorio>();
 
 

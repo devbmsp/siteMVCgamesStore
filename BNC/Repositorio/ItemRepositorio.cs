@@ -1,6 +1,5 @@
 using BNC.Data;
 using BNC.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace BNC.Repositorio;
 
@@ -25,7 +24,16 @@ public class ItemRepositorio : IItens
 
     public bool DeletarItem(int id)
     {
-        throw new NotImplementedException();
+        ItensModel ItemDB = BuscarItem(id);
+
+        if (ItemDB == null)
+        {
+            return false;
+        }
+        _bancoContext.Itens.Remove(ItemDB);
+        _bancoContext.SaveChanges();
+
+        return true;
     }
 
     public ItensModel AtualizarItem(ItensModel item)
@@ -45,13 +53,10 @@ public class ItemRepositorio : IItens
         
     }
 
-    public List<ItensModel> ListarItemId()
-    {
-        throw new NotImplementedException();
-    }
-
-    public List<ItensModel> ListarItem()
+    public List<ItensModel> ListarItems()
     {
         return _bancoContext.Itens.ToList();
     }
+
+   
 }

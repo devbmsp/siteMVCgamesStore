@@ -57,7 +57,6 @@ namespace BNC.Repositorio
         }
         public UserModel ListarPorId(int Id)
         {
-          
             return _bancoContext.Users.FirstOrDefault(x => x.Id == Id);
         }
 

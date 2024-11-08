@@ -12,7 +12,7 @@ public class ItensController : Controller
 
     public IActionResult IndexPosts()
     {
-        return View();
+        return View("Index");
     }
 
     public IActionResult ApagarItem(int id)
@@ -62,8 +62,34 @@ public class ItensController : Controller
     }
 
     [HttpGet]
-    public List<ItensModel> ListarPosts()
+    public IActionResult ListarPosts()
     {
-        return _itens.ListarItemId();
+        try
+        {
+            List<ItensModel> Itens = _itens.ListarItems();
+            return View(Itens);
+        }
+        catch (Exception )
+        {
+            TempData["MessageError"] = "Não conseguimos Listar os posts";
+            return View("Index");
+        }
+    }
+
+    public IActionResult EditarPost(int id)
+    {
+        try
+        {
+            TempData["SuccessMessage"] = "Post Atualizado ";
+            ItensModel postEdit = _itens.BuscarItem(id);
+            return View(postEdit);
+
+        }
+        catch (Exception)
+        {
+            TempData["MessageErro"] = "N�o conseguimos editar seu perfil";
+        }
+
+        return null;
     }
 }

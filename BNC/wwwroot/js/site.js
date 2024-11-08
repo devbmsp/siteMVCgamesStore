@@ -1,11 +1,6 @@
 ﻿
 let itens = [
-    { id: 1, nome: 'Playstation 4', descricao: 'Playstation 4 Slim com 1 TB de armazenamento.', imagem: 'images/ps4.png' },
-    { id: 2, nome: 'Nintendo 3DS', descricao: 'Nintendo 3DS Usado, Aceitamos trocas!', imagem: 'images/3DS.png' },
-    { id: 3, nome: 'Nintendo Switch', descricao: 'Nintendo Switch com mais de 1500 jogos instalados.', imagem: 'images/nintendo-switch.png' },
-    { id: 4, nome: 'Playstation 5', descricao: 'Playstation 5 Novo, não aceitamos trocas!', imagem: 'images/ps5.webp' },
-    { id: 5, nome: 'Nintendo Gameboy', descricao: 'Nintendo Gameboy Usado Funcionando Perfeitamente.', imagem: 'images/gameboy.png' },
-    { id: 6, nome: 'Nintendo 1996', descricao: 'Nintendo 96 restaurado, 0 jogos incluso.', imagem: 'images/nintendo-1996.png' }
+   
 ];
 
 function renderItem(item) {
@@ -16,12 +11,15 @@ function renderItem(item) {
     card.setAttribute('id', `card${item.id}`);
 
     card.innerHTML = `
+     @if (Model != null && Model.Email == "admin@bnc.com")
+                    {
      <div id="${item.id}" class="card-item">
         <div class="editor">
           <a href="#" onclick="postEdit('card${item.id}')">
             <img src="images/edit.png" alt="Botão" />
           </a>
         </div>
+        }
         <img class="img-card" src="${item.imagem}" alt="${item.nome}" />
         <div class="card-content">
           <h3>${item.nome}</h3>

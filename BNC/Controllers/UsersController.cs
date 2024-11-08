@@ -88,7 +88,6 @@ namespace BNC.Controllers
             
         }
 
-
         public IActionResult Register()
         {
             return View();
@@ -103,7 +102,7 @@ namespace BNC.Controllers
                 return View(userEdit);
                 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 TempData["MessageErro"] = "N�o conseguimos editar seu perfil";
             }

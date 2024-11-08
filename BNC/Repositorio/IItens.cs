@@ -8,5 +8,5 @@ public interface IItens
     ItensModel AdicionarItem(ItensModel item);
     bool DeletarItem(int id);
     ItensModel AtualizarItem (ItensModel item);
-    List<ItensModel> ListarItemId();
+    List<ItensModel> ListarItems();
 }
