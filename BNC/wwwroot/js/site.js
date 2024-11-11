@@ -1,116 +1,34 @@
-﻿
-let itens = [
-   
-];
-
-function renderItem(item) {
-    const cardWrapper = document.querySelector('.card-wrapper');
-
-    const card = document.createElement('div');
-    card.classList.add('card-item');
-    card.setAttribute('id', `card${item.id}`);
-
-    card.innerHTML = `
-     @if (Model != null && Model.Email == "admin@bnc.com")
-                    {
-     <div id="${item.id}" class="card-item">
-        <div class="editor">
-          <a href="#" onclick="postEdit('card${item.id}')">
-            <img src="images/edit.png" alt="Botão" />
-          </a>
-        </div>
-        }
-        <img class="img-card" src="${item.imagem}" alt="${item.nome}" />
-        <div class="card-content">
-          <h3>${item.nome}</h3>
-          <p>${item.descricao}</p>
-        </div>
-        <button type="button">Comprar</button>
-     </div>
-     
-    `;
-
-    cardWrapper.appendChild(card);
-}
-function saveNewPost() {
-    const title = document.getElementById('postTitle').value;
-    const description = document.getElementById('postDescription').value;
-    const image = document.getElementById('postImage').value;
-
-    if (title && description && image) {
-
-        const newItem = {
-            id: itens.length + 1,
-            nome: title,
-            descricao: description,
-            imagem: image
-        };
-
-        itens.push(newItem);
-
-        renderItem(newItem);
-
-        closeAddPostModal();
-
-        document.getElementById('addPostForm').reset();
-    } else {
-        alert('Por favor, preencha todos os campos.');
-    }
-}
-
-function postEdit(cardID) {
-    const cardIndex = itens.findIndex(item => `card${item.id}` === cardID);
-    const item = itens[cardIndex];
-
-    const action = prompt('Escolha uma ação: "editar" ou "deletar"').toLowerCase();
-
-    if (action === 'editar') {
-        const newTitle = prompt('Edite o nome do console:', item.nome);
-        const newDescription = prompt('Edite a descrição:', item.descricao);
-        const newImage = prompt('Edite o caminho da imagem:', item.imagem);
-
-
-        if (newTitle) item.nome = newTitle;
-        if (newDescription) item.descricao = newDescription;
-        if (newImage) item.imagem = newImage;
-
-        const card = document.getElementById(cardID);
-        card.querySelector('.card-content h3').textContent = item.nome;
-        card.querySelector('.card-content p').textContent = item.descricao;
-        const mainImage = card.querySelector('.img-card');
-        mainImage.src = item.imagem;
-        mainImage.alt = item.nome;
-
-
-
-    } else if (action === 'deletar') {
-        const confirmDelete = confirm('Tem certeza que deseja deletar este card?');
-        if (confirmDelete) {
-            itens.splice(cardIndex, 1);
-            document.getElementById(cardID).remove();
-        }
-    } else {
-        alert('Ação inválida. Escolha "editar" ou "deletar".');
-    }
-}
-
-
-function filterCatalog() {
+﻿function filterCatalog() {
     const searchInput = document.getElementById('searchInput').value.toLowerCase();
     const cardItems = document.querySelectorAll('.card-item');
 
     cardItems.forEach(item => {
         const title = item.querySelector('h3').textContent.toLowerCase();
         if (title.includes(searchInput)) {
-            item.style.visibility = 'visible'; 
+            item.style.visibility = 'visible';
             item.style.position = 'relative';
         } else {
-            item.style.visibility = 'hidden'; 
+            item.style.visibility = 'hidden';
             item.style.position = 'absolute';
         }
     });
 }
 
+function openEditModalWithData(id, name, description, image) {
+    document.getElementById('editPostId').value = id;
+    document.getElementById('editPostTitle').value = name;
+    document.getElementById('editPostDescription').value = description;
+    document.getElementById('editPostImage').value = image;
+
+    document.getElementById('PostModal').style.display = 'flex';
+}
+
+function openPost() {
+    document.getElementById('PostModal').style.display = 'flex';
+}
+function closePost() {
+    document.getElementById('PostModal').style.display = 'none';
+}
 
 function adicionarPost() {
     document.getElementById('addPostModal').style.display = 'flex';
@@ -119,6 +37,7 @@ function adicionarPost() {
 function closeAddPostModal() {
     document.getElementById('addPostModal').style.display = 'none';
 }
+
 
 function containsNumbers(str) {
     return /\d/.test(str);
@@ -137,7 +56,6 @@ function validateRegisterForm() {
     let isValid = true;
 
     const firstName = document.getElementById('firstName');
-    
     const gender = document.getElementById('validationCustom04');
     const username = document.getElementById('validationCustomUsername');
     const email = document.getElementById('email');
@@ -205,11 +123,6 @@ function validateRegisterForm() {
     }
 }
 
-function validateEmail(email) {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailPattern.test(email) && email.endsWith(".com");
-}
-
 function validateLoginForm(event) {
     let isValid = true;
 
@@ -218,7 +131,6 @@ function validateLoginForm(event) {
     const emailError = document.getElementById('emailError');
     const passwordError = document.getElementById('passwordError');
 
-    
     if (!validateEmail(email.value)) {
         email.classList.add('is-invalid');
         emailError.style.display = 'block';
@@ -227,7 +139,6 @@ function validateLoginForm(event) {
         email.classList.remove('is-invalid');
         emailError.style.display = 'none';
     }
-
 
     if (password.value.length < 4) {
         password.classList.add('is-invalid');
@@ -238,7 +149,6 @@ function validateLoginForm(event) {
         passwordError.style.display = 'none';
     }
 
-    
     if (!isValid) {
         event.preventDefault();
     }

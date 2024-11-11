@@ -3,6 +3,7 @@ using System.Diagnostics;
 using BNC.Helper;
 using BNC.Models;
 using BNC.Repositorio;
+using BNC.Migration;
 
 namespace BNC.Controllers
 {
@@ -10,12 +11,13 @@ namespace BNC.Controllers
     {
         private readonly IUser _userRepositorio;
         private readonly ISessao _sessao;
+        private readonly IItens _itensRepositorio;
 
-        
-        public UsersController(IUser usuarioRepositorio, ISessao sessao)
+        public UsersController(IUser usuarioRepositorio, ISessao sessao, IItens itens)
         {
             _userRepositorio = usuarioRepositorio;
             _sessao = sessao;
+            _itensRepositorio = itens;
         }
 
         [HttpPost]
@@ -63,9 +65,15 @@ namespace BNC.Controllers
             {
                 return RedirectToAction("Login");
             }
-            return View(usuario);
 
-            
+            var item = _itensRepositorio.ListarItems();
+
+            var viewModel = new ItensModel();
+
+
+            return View(viewModel);
+
+
         }
 
         public IActionResult Login()

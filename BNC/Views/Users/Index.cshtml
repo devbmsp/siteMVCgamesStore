@@ -1,130 +1,179 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model BNC.Models.UserModel
+@model ItensModel
 @{
     ViewData["Title"] = "Home Page";
 }
+
 @if (TempData["MensagemErro"] != null)
 {
-<div class="alert alert-danger" role="alert">
-    <button type="button" class="btn btn-danger btn-sm close-alert" data-bs-dismiss="alert" aria-label="Close">X</button>
-    @TempData["MensagemErro"]
-</div>
+    <div class="alert alert-danger" role="alert">
+        <button type="button" class="btn btn-danger btn-sm close-alert" data-bs-dismiss="alert" aria-label="Close">X</button>
+        @TempData["MensagemErro"]
+    </div>
 }
+
 @if (TempData["MensagemSucesso"] != null)
 {
-<div class="alert alert-success" role="alert">
-    <button type="button" class="btn btn-success btn-sm close-alert" data-bs-dismiss="alert" aria-label="Close">X</button>
-    @TempData["MensagemSucesso"]
-</div>
+    <div class="alert alert-success" role="alert">
+        <button type="button" class="btn btn-success btn-sm close-alert" data-bs-dismiss="alert" aria-label="Close">X</button>
+        @TempData["MensagemSucesso"]
+    </div>
 }
-    <section class="catalog" id="catalog">
-        < class="content">
-            <div class="header-block">
-                <div class="text">
-                    <h2>Bem Vindo ao BNC!</h2>
-                    <h2>O Console Perfeito Para você!</h2>
-                    <p>
-                        Grandes Descontos e Ofertas, Venha já e obtenha seu novo Console !!!
-                        Aceitamos trocas!!
-                    </p>
-                </div>
-                <img src="~/images/ps5.webp" alt="ps5"/>
+
+<section class="catalog" id="catalog">
+    <div class="content">
+        <div class="header-block">
+            <div class="text">
+                <h2>Bem Vindo ao BNC!</h2>
+                <h2>O Console Perfeito Para você!</h2>
+                <p>Grandes Descontos e Ofertas, Venha já e obtenha seu novo Console! Aceitamos trocas!</p>
             </div>
-            <div class="title-wrapper-catalog">
-                <p>Encontre o que Procura!</p>
-                <h3>Catálogo</h3>
-            </div>
+            <img src="~/images/ps5.webp" alt="ps5" />
+        </div>
+
+        <div class="title-wrapper-catalog">
+            <p>Encontre o que Procura!</p>
+            <h3>Catálogo</h3>
+        </div>
+
+        <div class="filter-card">
+            <input type="text" class="search-input" placeholder="Qual console está procurando?" id="searchInput" onkeyup="filterCatalog()" />
+        </div>
+
+        @if (Model.Usuario != null && Model.Usuario.Email == "admin@bnc.com")
+        {
             <div class="filter-card">
+                <button onclick="adicionarPost()" id="addPost" class="cardPost">Adicionar Post</button>
+            </div>
 
-                <input type="text" class="search-input" placeholder="Qual console está procurando?" id="searchInput"
-                       onkeyup="filterCatalog()"/>
-           </div>
-            @if (Model != null && Model.Email == "admin@bnc.com") 
+            <div id="addPostModal" class="modal-container" style="display: none;">
+                <div class="modal">
+                    <h2>Adicionar Novo Post</h2>
+                    <form id="addPostForm" asp-controller="Itens" asp-action="PostarItem" method="post">
+                        <label for="postTitle">Título:</label>
+                        <input type="text" id="postTitle" name="Name" required />
+
+                        <label for="postDescription">Descrição:</label>
+                        <textarea id="postDescription" name="Description" rows="3" required></textarea>
+
+                        <label for="postImage">URL da Imagem:</label>
+                        <input type="text" id="postImage" name="Image" required />
+
+                        <button type="submit">Salvar</button>
+                        <button type="button" onclick="closeAddPostModal()">Cancelar</button>
+                    </form>
+                </div>
+            </div>
+        }
+
+        <div class="card-wrapper">
+            @foreach (var item in Model.Item)
             {
-                <div class="filter-card">
-                    <button onclick="adicionarPost()" id="addPost" class="cardPost">Adicionar Post</button>
-                </div>
-
-                <div id="addPostModal" class="modal-container">
-                    <div class="modal">
-                        <h2>Adicionar Novo Post</h2>
-                        <form id="addPostForm" asp-controller="Itens" asp-action="PostarItem">
-                            <label for="postTitle">Título:</label>
-                            <input type="text" id="postTitle" required><label for="postDescription">Descrição:</label>
-                            <textarea id="postDescription" rows="3" required></textarea>
-                            <label for="postImage">URL da Imagem:</label>
-                            <input type="text" id="postImage" required>
-                            <button type="button" onclick="saveNewPost()">Salvar</button>
-                            <button type="button" onclick="closeAddPostModal()">Cancelar</button>
-                        </form>
+                <div class="card-item" id="card@item.Id">
+                    @if (Model.Usuario != null && Model.Usuario.Email == "admin@bnc.com")
+                    {
+                        <div class="editor">
+                            <a onclick="openPost()">
+                                <img src="~/images/edit.png" alt="Editar" />
+                            </a>
+                        </div>
+                    }
+                    <img class="img-card" src="@item.Image" alt="@item.Name" />
+                    <div class="card-content">
+                        <h3>@item.Name</h3>
+                        <p>@item.Description</p>
                     </div>
+                    <button type="button">Comprar</button>
+                    <div id="PostModal" class="modal-container" style="display: none;">
+                        <div class="modal">
+                            <h2>Editar Post</h2>
+                            <form id="editPostForm" asp-controller="Itens" asp-action="AlterarPost" method="post">
+                                <input type="hidden" id="editPostId" value="@Model.Id" />
+                                <label for="editPostTitle">Título:</label>
+                                <input type="text" id="editPostTitle" value="@Model.Name" required />
 
+                                <label for="editPostDescription">Descrição:</label>
+                                <textarea id="editPostDescription" value="@Model.Description" rows="3" required></textarea>
+
+                                <label for="editPostImage">URL da Imagem:</label>
+                                <input type="text" id="editPostImage" value="@Model.Image" required />
+
+                                <button type="submit">Salvar</button>
+                                <button type="button" onclick="closePost()">Cancelar</button>
+                            </form>
+                            <button type="button" asp-controller="Itens" asp-action="ApagarItem" method="delet">Deletar</button>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="card-wrapper"></div>
             }
-                  
-    </section>
+        </div>
+    </div>
 
-    <section class="about" id="about">
-        <div class="content">
-            <div class="title-wrapper-about">
-                <p>Saiba sobre a empresa</p>
-                <h3>Sobre nós</h3>
+    
+</section>
+
+<section class="about" id="about">
+    <div class="content">
+        <div class="title-wrapper-about">
+            <p>Saiba sobre a empresa</p>
+            <h3>Sobre nós</h3>
+        </div>
+        <div class="about-content">
+            <div class="left">
+                <img src="~/images/BNC.png" alt="About" />
             </div>
-            <div class="about-content">
-                <div class="left">
-                    <img src="~/images/BNC.png" alt="About"/>
+            <div class="right">
+                <h3>Tecnologia com Paixão: Consoles que Fazem História</h3>
+                <p>
+                    Na BNC, somos movidos por um amor incondicional pela tecnologia e por tudo o que ela representa.
+                    Desde o primeiro console que capturou a imaginação do mundo até os modelos mais recentes que continuam a redefinir o
+                    entretenimento, nossa missão é manter viva a magia dos jogos eletrônicos, proporcionando a você a oportunidade de explorar
+                    cada fase dessa jornada incrível.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="contact" id="contact">
+    <div class="content">
+        <div class="title-wrapper-contact">
+            <p>Precisa de Ajuda?</p>
+            <h3>Contatos</h3>
+        </div>
+        <div class="contact-card-block">
+            <div class="contact-card-item">
+                <img src="~/images/whatsapp.png" alt="contact" />
+                <div class="contact-text-content">
+                    <h3>WhatsApp</h3>
+                    <p>(41) 99999-9999</p>
                 </div>
-                <div class="right">
-                    <h3>Tecnologia com Paixão: Consoles que Fazem História</h3>
-                    <p>
-
-                    Na BNC, somos movidos por um amor incondicional pela tecnologia e por tudo o que ela representa. Desde o
-                    primeiro console que capturou a imaginação do mundo até os modelos mais recentes que continuam a redefinir o
-                    entretenimento, nossa missão é manter viva a magia dos jogos eletrônicos, proporcionando a você a
-                    oportunidade de explorar cada fase dessa jornada incrível.
-
-
+            </div>
+            <div class="contact-card-item">
+                <img src="~/images/telefone.png" alt="contact" />
+                <div class="contact-text-content">
+                    <h3>Telefone</h3>
+                    <p>+55 (41) 3555-5555</p>
+                </div>
+            </div>
+            <div class="contact-card-item">
+                <img src="~/images/gmail.png" alt="contact" />
+                <div class="contact-text-content">
+                    <h3>Gmail</h3>
+                    <p>BNCgmail@gmail.com</p>
+                </div>
+            </div>
+            <div class="contact-card-item">
+                <img src="~/images/telegram.png" alt="contact" />
+                <div class="contact-text-content">
+                    <h3>Telegram</h3>
+                    <p>(41) 88888-8888</p>
                 </div>
             </div>
         </div>
-    </section>
-    <section class="contact" id="contact">
-        <div class="content">
-            <div class="title-wrapper-contact">
-                <p>Precisa de Ajuda?</p>
-                <h3>Contatos</h3>
-            </div>
-            <div class="contact-card-block">
-                <div class="contact-card-item">
-                    <img src="~/images/whatsapp.png" alt="contact"/>
-                    <div class="contact-text-content">
-                        <h3>WhatsApp</h3>
-                        <p>(41) 99999-9999</p>
-                    </div>
-                </div>
-                <div class="contact-card-item">
-                    <img src="~/images/telefone.png" alt="contact"/>
-                    <div class="contact-text-content">
-                        <h3>Telefone</h3>
-                        <p>+55 ( 41 )3555-5555</p>
-                    </div>
-                </div>
-                <div class="contact-card-item">
-                    <img src="~/images/gmail.png" alt="contact"/>
-                    <div class="contact-text-content">
-                        <h3>Gmail</h3>
-                        <p>BNCgmail@gmail.com</p>
-                    </div>
-                </div>
-                <div class="contact-card-item">
-                    <img src="~/images/telegram.png" alt="contact"/>
-                    <div class="contact-text-content">
-                        <h3>Telegram</h3>
-                        <p>(41) 88888-8888</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/site.js"></script>
+}
